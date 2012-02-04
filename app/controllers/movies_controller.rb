@@ -1,7 +1,5 @@
 class MoviesController < ApplicationController
 
-  attr_accessor :ratings_chckd
-
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -9,14 +7,19 @@ class MoviesController < ApplicationController
   end
 
   def index
-    ratings_chckd = {} if ratings_chckd == nil
+    # use :ratings to set up all the ratings that have been checked
+    if params[:ratings] == nil
+      ratings_chckd = {}
+    else
+      ratings_chckd = params[:ratings].select{|k, v| v=="1" or v=="true"}
+    end
 
     # handle the filtering
-    if params[:ratings] != nil
-      @movies = Movie.find_all_by_rating(params[:ratings].keys,
-                                     {:order => params[:sort_by]})
+    if ratings_chckd.empty?
+      @movies = Movie.find(:all, :order => params[:sort_by])
     else
-      @movies = Movie.all(:order => params[:sort_by])
+      @movies = Movie.find_all_by_rating(ratings_chckd.keys,
+                                         :order => params[:sort_by])
     end
 
     # conditionally set the class of title and release_date
@@ -27,7 +30,8 @@ class MoviesController < ApplicationController
       @release_class = "hilite"
     end
 
-    @all_ratings = Movie.all_ratings
+    @all_ratings = Hash.new
+    Movie.all_ratings.each { |r| @all_ratings[r]=ratings_chckd.has_key?(r) }
   end
 
   def new
