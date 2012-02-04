@@ -6,7 +6,8 @@
   - @all_ratings.each do |rating, chckd|
     = rating
     = check_box_tag "ratings[#{rating}]", "1" , chckd
-  = submit_tag 'Refresh'
+  = hidden_field_tag :sort_by, @sort_type
+  = submit_tag 'Refresh', :id => "ratings_submit"
 
 %table#movies
   %thead

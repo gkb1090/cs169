@@ -8,6 +8,7 @@ class MoviesController < ApplicationController
 
   def index
     # use :ratings to set up all the ratings that have been checked
+    @sort_type = params[:sort_by]
 
     if params[:ratings] == nil
       ratings_chckd = {}
