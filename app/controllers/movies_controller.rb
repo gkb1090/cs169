@@ -17,6 +17,18 @@ class MoviesController < ApplicationController
   # params[:ratings] => a hash of {rating => checked?} where checked? is a string
   #                     If a rating doesn't appear in  hash, assume chckd?=false
   def index
+    # if the session has something :to_remember and neither the Refresh button
+    # not a sort were requested, then it cannot be the first time you are coming
+    # to the website. In this case, redirect_to a movies_path with the rememberd
+    # params and remove the :to_remember from session.
+    if session.has_key?(:to_remember) and
+        !(params.has_key?(:commit) or params.has_key?(:sort_by))
+      redirect_to movies_path(session[:to_remember])
+    end
+
+    # ASSUMING that if redirect_to was reached, then you won't get to this part
+    # of the program, you need to delete the :to_remember key from the session
+    session.delete(:to_remember)
 
     @sort_type = params[:sort_by] # get what column to sort by
 
@@ -43,6 +55,10 @@ class MoviesController < ApplicationController
       # handle that here explicitly
       @movies = [] if ratings_chckd.empty?
 
+      # the to_remember key in session[] has value of params
+      # important that we only add it if we actually sorted or filtered
+      session[:to_remember] = params
+
     else
       # first entry upon website. Here we want all movies to appear and all
       # ratings in @all_ratings to be true so that they are all checked
@@ -66,6 +82,7 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.create!(params[:movie])
     flash[:notice] = "#{@movie.title} was successfully created."
+    logger.debug "When creating we have #{flash[:notice]} "
     redirect_to movies_path
   end
 
