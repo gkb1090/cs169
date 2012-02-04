@@ -6,35 +6,51 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  # INSTANCE VARIABLES IN INDEX:
+  # @sort_type - dictactes what column we are sorting by
+  # @all_ratings - returns hash of {rating => checked?} for all ratings in the DB
+  # @movies - all the movies after filter and sort applied
+  #
+  # ASSUMED CONTENT IN PARAMS[]:
+  # params[:sort_by] => string representing what column to sort movies by
+  # params[:commit]  => its presence indicates that "Refresh" was clicked
+  # params[:ratings] => a hash of {rating => checked?} where checked? is a string
+  #                     If a rating doesn't appear in  hash, assume chckd?=false
   def index
-    # use :ratings to set up all the ratings that have been checked
-    @sort_type = params[:sort_by]
 
-    if params[:ratings] == nil
-      ratings_chckd = {}
-    else
-      ratings_chckd = params[:ratings].select{|k, v| v=="1" or v=="true"}
-    end
+    @sort_type = params[:sort_by] # get what column to sort by
 
+    # get all the ratings that have been checked
+    # if no ratings were checked, ratings_chckd will be {}
+    ratings_chckd = Hash.new
+    ratings_chckd = params[:ratings].select{|k, v| v=="true"} unless
+      params[:ratings] == nil
+
+    # obtain all the ratings using Movie.all_ratings and set all to true
     @all_ratings = Hash.new
-    Movie.all_ratings.each do |r|
-      @all_ratings[r]=ratings_chckd.has_key?(r)
-      @all_ratings[r]=true if params[:ratings] == nil and
-        !params.has_key?(:commit)
-    end
+    Movie.all_ratings.each { |r| @all_ratings[r] = true }
 
-    # handle the filtering
-    if ratings_chckd.empty? and !params.has_key?(:commit)
-      @movies = Movie.find(:all, :order => params[:sort_by])
-    elsif ratings_chckd.empty?
-      @movies = []
-    else
+    # first check if "Refresh" was clicked or a sort was requested
+    if params.has_key?(:commit) or params.has_key?(:sort_by)
+      # if yes, @all_ratings should have true values for only those ratings
+      # that are checked. This will ensure that what was clicked stays clicked.
+      Movie.all_ratings.each { |r| @all_ratings[r] = ratings_chckd.has_key?(r) }
+
+      # return @movies after filtering by ratings that have been checked
       @movies = Movie.find_all_by_rating(ratings_chckd.keys,
-                                         :order => params[:sort_by])
+                                         :order => @sort_type)
+      # the previous statement finds all if there are no ratings checked so
+      # handle that here explicitly
+      @movies = [] if ratings_chckd.empty?
+
+    else
+      # first entry upon website. Here we want all movies to appear and all
+      # ratings in @all_ratings to be true so that they are all checked
+      @movies = Movie.all
     end
 
     # conditionally set the class of title and release_date
-    case params[:sort_by]
+    case @sort_type
     when "title"
       @title_class = "hilite"
     when "release_date"

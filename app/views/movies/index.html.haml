@@ -5,7 +5,7 @@
   Include: 
   - @all_ratings.each do |rating, chckd|
     = rating
-    = check_box_tag "ratings[#{rating}]", "1" , chckd
+    = check_box_tag "ratings[#{rating}]", "true" , chckd
   = hidden_field_tag :sort_by, @sort_type
   = submit_tag 'Refresh', :id => "ratings_submit"
 
