@@ -8,15 +8,25 @@ class MoviesController < ApplicationController
 
   def index
     # use :ratings to set up all the ratings that have been checked
+
     if params[:ratings] == nil
       ratings_chckd = {}
     else
       ratings_chckd = params[:ratings].select{|k, v| v=="1" or v=="true"}
     end
 
+    @all_ratings = Hash.new
+    Movie.all_ratings.each do |r|
+      @all_ratings[r]=ratings_chckd.has_key?(r)
+      @all_ratings[r]=true if params[:ratings] == nil and
+        !params.has_key?(:commit)
+    end
+
     # handle the filtering
-    if ratings_chckd.empty?
+    if ratings_chckd.empty? and !params.has_key?(:commit)
       @movies = Movie.find(:all, :order => params[:sort_by])
+    elsif ratings_chckd.empty?
+      @movies = []
     else
       @movies = Movie.find_all_by_rating(ratings_chckd.keys,
                                          :order => params[:sort_by])
@@ -30,8 +40,6 @@ class MoviesController < ApplicationController
       @release_class = "hilite"
     end
 
-    @all_ratings = Hash.new
-    Movie.all_ratings.each { |r| @all_ratings[r]=ratings_chckd.has_key?(r) }
   end
 
   def new
