@@ -23,6 +23,7 @@ class MoviesController < ApplicationController
     # params and remove the :to_remember from session.
     if session.has_key?(:to_remember) and
         !(params.has_key?(:commit) or params.has_key?(:sort_by))
+      flash[:notice] = flash[:notice]
       redirect_to movies_path(session[:to_remember])
     end
 
