@@ -1,0 +1,128 @@
+                              /fm/filemanager(/:action(/:id))    {:controller=>"Fm::Filemanager"}
+      ckeditor_command        /ckeditor/command                  {:controller=>"ckeditor", :action=>"command"}
+       ckeditor_upload        /ckeditor/upload                   {:controller=>"ckeditor", :action=>"upload"}
+     articles_by_month        /:year/:month                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"articles", :action=>"index"}
+articles_by_month_page        /:year/:month/page/:page           {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"articles", :action=>"index"}
+      articles_by_year        /:year                             {:year=>/\d{4}/, :controller=>"articles", :action=>"index"}
+ articles_by_year_page        /:year/page/:page                  {:year=>/\d{4}/, :controller=>"articles", :action=>"index"}
+       admin_dashboard        /admin                             {:action=>"index", :controller=>"admin/dashboard"}
+                   rss        /articles.:format                  {:format=>"rss", :controller=>"articles", :action=>"index"}
+                  atom        /articles.:format                  {:format=>"atom", :controller=>"articles", :action=>"index"}
+                   xml        /xml/articlerss/:id/feed.xml       {:action=>"articlerss", :controller=>"xml"}
+                              /xml/commentrss/feed.xml           {:action=>"commentrss", :controller=>"xml"}
+                              /xml/trackbackrss/feed.xml         {:action=>"trackbackrss", :controller=>"xml"}
+                   xml        /xml/:format                       {:format=>"rss", :controller=>"xml", :action=>"feed"}
+                   xml        /sitemap.xml(.:format)             {:format=>"googlesitemap", :controller=>"xml", :action=>"feed"}
+                              /xml/:format/feed.xml              {:action=>"feed", :controller=>"xml"}
+                              /xml/:format/:type/:id/feed.xml    {:action=>"feed", :controller=>"xml"}
+                              /xml/:format/:type/feed.xml        {:action=>"feed", :controller=>"xml"}
+               xml_rsd        /xml/rsd                           {:controller=>"xml", :action=>"rsd"}
+              xml_feed        /xml/feed(.:format)                {:controller=>"xml", :action=>"feed"}
+   admin_content_merge        /admin/content/merge(.:format)     {:controller=>"admin/content", :action=>"merge"}
+preview_admin_comments        /comments/preview(.:format)        {:action=>"preview", :controller=>"comments"}
+        admin_comments GET    /comments(.:format)                {:action=>"index", :controller=>"comments"}
+                       POST   /comments(.:format)                {:action=>"create", :controller=>"comments"}
+     new_admin_comment GET    /comments/new(.:format)            {:action=>"new", :controller=>"comments"}
+    edit_admin_comment GET    /comments/:id/edit(.:format)       {:action=>"edit", :controller=>"comments"}
+         admin_comment GET    /comments/:id(.:format)            {:action=>"show", :controller=>"comments"}
+                       PUT    /comments/:id(.:format)            {:action=>"update", :controller=>"comments"}
+                       DELETE /comments/:id(.:format)            {:action=>"destroy", :controller=>"comments"}
+            trackbacks GET    /trackbacks(.:format)              {:action=>"index", :controller=>"trackbacks"}
+                       POST   /trackbacks(.:format)              {:action=>"create", :controller=>"trackbacks"}
+         new_trackback GET    /trackbacks/new(.:format)          {:action=>"new", :controller=>"trackbacks"}
+        edit_trackback GET    /trackbacks/:id/edit(.:format)     {:action=>"edit", :controller=>"trackbacks"}
+             trackback GET    /trackbacks/:id(.:format)          {:action=>"show", :controller=>"trackbacks"}
+                       PUT    /trackbacks/:id(.:format)          {:action=>"update", :controller=>"trackbacks"}
+                       DELETE /trackbacks/:id(.:format)          {:action=>"destroy", :controller=>"trackbacks"}
+                       POST   /trackbacks/:id/:day/:month/:year  {:controller=>"trackbacks", :action=>"create"}
+  live_search_articles        /live_search                       {:controller=>"articles", :action=>"live_search"}
+                search        /search/:q(.:format)/page/:page    {:controller=>"articles", :action=>"search"}
+                search        /search(/:q(.:format))             {:controller=>"articles", :action=>"search"}
+           search_base        /search                            {:controller=>"articles", :action=>"search"}
+              archives        /archives                          {:controller=>"articles", :action=>"archives"}
+                              /page/:page                        {:page=>/\d+/, :controller=>"articles", :action=>"index"}
+                       GET    /pages/*name                       {:controller=>"articles", :action=>"view_page"}
+                              /previews(/:id)                    {:controller=>"articles", :action=>"preview"}
+        check_password        /check_password                    {:action=>"check_password", :controller=>"articles"}
+                              /articles/markup_help/:id          {:controller=>"articles", :action=>"markup_help"}
+          articles_tag        /articles/tag                      {:controller=>"articles", :action=>"tag"}
+     articles_category        /articles/category                 {:controller=>"articles", :action=>"category"}
+                 setup        /setup                             {:controller=>"setup", :action=>"index"}
+         setup_confirm        /setup/confirm                     {:controller=>"setup", :action=>"confirm"}
+            categories GET    /categories(.:format)              {:action=>"index", :controller=>"categories"}
+                       POST   /categories(.:format)              {:action=>"create", :controller=>"categories"}
+          new_category GET    /categories/new(.:format)          {:action=>"new", :controller=>"categories"}
+         edit_category GET    /category/:id/edit(.:format)       {:action=>"edit", :controller=>"categories"}
+              category GET    /category/:id(.:format)            {:action=>"show", :controller=>"categories"}
+                       PUT    /category/:id(.:format)            {:action=>"update", :controller=>"categories"}
+                       DELETE /category/:id(.:format)            {:action=>"destroy", :controller=>"categories"}
+                              /category/:id/page/:page           {:controller=>"categories", :action=>"show"}
+                  tags GET    /tags(.:format)                    {:action=>"index", :controller=>"tags"}
+                       POST   /tags(.:format)                    {:action=>"create", :controller=>"tags"}
+               new_tag GET    /tags/new(.:format)                {:action=>"new", :controller=>"tags"}
+              edit_tag GET    /tag/:id/edit(.:format)            {:action=>"edit", :controller=>"tags"}
+                   tag GET    /tag/:id(.:format)                 {:action=>"show", :controller=>"tags"}
+                       PUT    /tag/:id(.:format)                 {:action=>"update", :controller=>"tags"}
+                       DELETE /tag/:id(.:format)                 {:action=>"destroy", :controller=>"tags"}
+                              /tag/:id/page/:page                {:controller=>"tags", :action=>"show"}
+                              /tags/page/:page                   {:controller=>"tags", :action=>"index"}
+                   xml        /author/:id(.:format)              {:format=>/rss|atom/, :controller=>"authors", :action=>"show"}
+                              /author(/:id)                      {:controller=>"authors", :action=>"show"}
+                       GET    /stylesheets/theme/:filename       {:filename=>/.*/, :action=>"stylesheets", :controller=>"theme"}
+                       GET    /javascripts/theme/:filename       {:filename=>/.*/, :action=>"javascript", :controller=>"theme"}
+                       GET    /images/theme/:filename            {:filename=>/.*/, :action=>"images", :controller=>"theme"}
+theme_static_view_test GET    /theme/static_view_test            {:controller=>"theme", :action=>"static_view_test"}
+              accounts        /accounts                          {:action=>"index", :controller=>"accounts"}
+                              /accounts(/:action)                {:controller=>"accounts"}
+                              /accounts(/:action(/:id))          {:id=>nil, :controller=>"accounts"}
+               backend        /backend                           {:action=>"index", :controller=>"backend"}
+                              /backend(/:action)                 {:controller=>"backend"}
+                              /backend(/:action(/:id))           {:id=>nil, :controller=>"backend"}
+                 files        /files                             {:action=>"index", :controller=>"files"}
+                              /files(/:action)                   {:controller=>"files"}
+                              /files(/:action(/:id))             {:id=>nil, :controller=>"files"}
+               sidebar        /sidebar                           {:action=>"index", :controller=>"sidebar"}
+                              /sidebar(/:action)                 {:controller=>"sidebar"}
+                              /sidebar(/:action(/:id))           {:id=>nil, :controller=>"sidebar"}
+        admin_advanced        /admin/advanced                    {:controller=>"admin/advanced", :action=>"index"}
+                              /admin/advanced(/:action(/:id))    {:action=>nil, :id=>nil, :controller=>"admin/advanced"}
+           admin_cache        /admin/cache                       {:controller=>"admin/cache", :action=>"index"}
+                              /admin/cache(/:action(/:id))       {:action=>nil, :id=>nil, :controller=>"admin/cache"}
+      admin_categories        /admin/categories                  {:controller=>"admin/categories", :action=>"index"}
+                              /admin/categories(/:action(/:id))  {:action=>nil, :id=>nil, :controller=>"admin/categories"}
+                              /admin/comments                    {:controller=>"admin/comments", :action=>"index"}
+                              /admin/comments(/:action(/:id))    {:action=>nil, :id=>nil, :controller=>"admin/comments"}
+         admin_content        /admin/content                     {:controller=>"admin/content", :action=>"index"}
+                              /admin/content(/:action(/:id))     {:action=>nil, :id=>nil, :controller=>"admin/content"}
+        admin_profiles        /admin/profiles                    {:controller=>"admin/profiles", :action=>"index"}
+                              /admin/profiles(/:action(/:id))    {:action=>nil, :id=>nil, :controller=>"admin/profiles"}
+        admin_feedback        /admin/feedback                    {:controller=>"admin/feedback", :action=>"index"}
+                              /admin/feedback(/:action(/:id))    {:action=>nil, :id=>nil, :controller=>"admin/feedback"}
+         admin_general        /admin/general                     {:controller=>"admin/general", :action=>"index"}
+                              /admin/general(/:action(/:id))     {:action=>nil, :id=>nil, :controller=>"admin/general"}
+           admin_pages        /admin/pages                       {:controller=>"admin/pages", :action=>"index"}
+                              /admin/pages(/:action(/:id))       {:action=>nil, :id=>nil, :controller=>"admin/pages"}
+       admin_resources        /admin/resources                   {:controller=>"admin/resources", :action=>"index"}
+                              /admin/resources(/:action(/:id))   {:action=>nil, :id=>nil, :controller=>"admin/resources"}
+         admin_sidebar        /admin/sidebar                     {:controller=>"admin/sidebar", :action=>"index"}
+                              /admin/sidebar(/:action(/:id))     {:action=>nil, :id=>nil, :controller=>"admin/sidebar"}
+     admin_textfilters        /admin/textfilters                 {:controller=>"admin/textfilters", :action=>"index"}
+                              /admin/textfilters(/:action(/:id)) {:action=>nil, :id=>nil, :controller=>"admin/textfilters"}
+          admin_themes        /admin/themes                      {:controller=>"admin/themes", :action=>"index"}
+                              /admin/themes(/:action(/:id))      {:action=>nil, :id=>nil, :controller=>"admin/themes"}
+      admin_trackbacks        /admin/trackbacks                  {:controller=>"admin/trackbacks", :action=>"index"}
+                              /admin/trackbacks(/:action(/:id))  {:action=>nil, :id=>nil, :controller=>"admin/trackbacks"}
+           admin_users        /admin/users                       {:controller=>"admin/users", :action=>"index"}
+                              /admin/users(/:action(/:id))       {:action=>nil, :id=>nil, :controller=>"admin/users"}
+        admin_settings        /admin/settings                    {:controller=>"admin/settings", :action=>"index"}
+                              /admin/settings(/:action(/:id))    {:action=>nil, :id=>nil, :controller=>"admin/settings"}
+            admin_tags        /admin/tags                        {:controller=>"admin/tags", :action=>"index"}
+                              /admin/tags(/:action(/:id))        {:action=>nil, :id=>nil, :controller=>"admin/tags"}
+       admin_redirects        /admin/redirects                   {:controller=>"admin/redirects", :action=>"index"}
+                              /admin/redirects(/:action(/:id))   {:action=>nil, :id=>nil, :controller=>"admin/redirects"}
+             admin_seo        /admin/seo                         {:controller=>"admin/seo", :action=>"index"}
+                              /admin/seo(/:action(/:id))         {:action=>nil, :id=>nil, :controller=>"admin/seo"}
+      admin_post_types        /admin/post_types                  {:controller=>"admin/post_types", :action=>"index"}
+                              /admin/post_types(/:action(/:id))  {:action=>nil, :id=>nil, :controller=>"admin/post_types"}
+                  root        /                                  {:controller=>"articles", :action=>"index"}
+                              /*from                             {:controller=>"articles", :action=>"redirect"}

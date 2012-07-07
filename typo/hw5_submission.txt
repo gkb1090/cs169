@@ -1,0 +1,13 @@
+Name: Girish Balakrishnan
+Partner Name: Venketaram Ramachandran
+Link to Heroku Deployment: http://growing-cloud-6867.heroku.com/
+Link to Our Github Repo: https://github.com/gkb1090/typo
+
+Admin Details on Deployment
+---------------------------
+Username: admin
+Password: GqYAxqr
+
+cs169-sp12-staff is also added as a collaborator to that github repo.
+
+Thanks.
