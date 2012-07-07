@@ -1,0 +1,15 @@
+require 'spec_helper'
+
+describe Movie do
+
+  describe 'given the director, find all the movies by that director' do
+
+    it 'should get a call to find similar movies and return those movies' do
+      @fake_results = [mock('Movie'), mock('Movie')]
+      Movie.should_receive(:find_similar).and_return(@fake_results)
+      get :search_director, {:id => 0}
+    end
+
+  end
+
+end

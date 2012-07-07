@@ -1,0 +1,5 @@
+Feature: add a movie to the movies table
+ 
+  As a Moviegoer
+  So that I can see new movies
+  I want create movies that don't exist in the database yet
