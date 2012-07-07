@@ -1,0 +1,53 @@
+#!/usr/local/bin/ruby
+
+=begin
+Implements attr_accessor_with_history using meta-programming techniques.
+Reopens class Class.
+=end
+class Class
+  def attr_accessor_with_history(attr_name)
+    attr_name = attr_name.to_s         # make sure it's a string
+    attr_reader attr_name              # create the attribute's getter
+
+    class_eval %Q{
+      def #{attr_name}_history
+        @#{attr_name}_history = [@#{attr_name}] if @#{attr_name}_history == nil
+        @#{attr_name}_history
+      end }
+
+    class_eval %Q{
+      def #{attr_name}=(val)
+        @#{attr_name}_history = [@#{attr_name}] if @#{attr_name}_history == nil
+        @#{attr_name}_history << val
+        @#{attr_name} = val
+      end }
+  end
+end
+
+class Foo
+  def initialize (val)
+    @bar = val
+  end
+  attr_accessor_with_history :bar
+end
+#Foo.class_eval %Q{ def yay ; puts "yay!"; end}
+f = Foo.new(1)
+#print f.bar_history; print "\n";
+f.bar = 3
+#print f.bar_history; print "\n";
+f.bar = :wowzo
+#print f.bar_history; print "\n";
+f.bar = 'boo!'
+print f.bar_history; print "\n";
+
+class Foo2
+  attr_accessor_with_history :bar
+end
+f = Foo2.new
+#print f.bar_history; print "\n";
+f.bar = 3
+#print f.bar_history; print "\n";
+f.bar = :wowzo
+#print f.bar_history; print "\n";
+f.bar = 'boo!'
+print f.bar_history; print "\n";

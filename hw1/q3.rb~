@@ -1,0 +1,27 @@
+#!/usr/local/bin/ruby
+
+def combine_anagrams (words)
+  # sort all words, iterate through them and collect equal strings
+  arr = Array.new
+  words.map { |w| w.downcase.split(//).sort.join}.each { |w|
+    arr << w unless arr.include? w }
+  arr_to_ret = Array.new(arr.length, [])
+  words.each do |w|
+#    puts arr_to_ret[arr.index(w.downcase.split(//).sort.join)]
+#    arr_to_ret[arr.index(w.downcase.split(//).sort.join)] << w
+    arr_to_ret[0] << w
+  end
+  arr_to_ret
+end
+
+class String
+  def sort
+    # sort by turning letters into ASCII and then sorting
+    ascii_arr = Array.new
+    self.downcase.each_char { |char| ascii_arr << char }
+    str_sorted = String.new
+    ascii_arr.sort.each { |elt| str_sorted << elt }
+    str_sorted
+  end
+end
+print combine_anagrams (['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream']) ; print "\n";

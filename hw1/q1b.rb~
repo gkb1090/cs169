@@ -1,0 +1,11 @@
+#!/usr/local/bin/ruby
+
+# Given a string of input, return a hash whose keys are words in the string
+# and whose values are the number of times each word appears
+
+def count_words (string)
+  string.downcase.scan(/\b\w+\b/)
+  # need to go through array and get hash of words
+end
+
+puts count_words ("A man, a plan, a canal -- Panama")

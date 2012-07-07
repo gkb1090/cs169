@@ -1,0 +1,5 @@
+#!/usr/local/bin/ruby
+
+=begin
+(a) Function to check if input string is a palindrome
+=end

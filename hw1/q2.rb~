@@ -1,0 +1,12 @@
+#!/usr/local/bin/ruby
+
+=begin
+
+=end
+
+class WrongNumberOfPlayersError < StandardError ; end
+class NoSuchStrategyError < StandardError ; end
+
+def rps_get_winner (game)
+
+end
